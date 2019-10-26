@@ -8,57 +8,82 @@
  */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *tempnext = NULL;
-	listint_t *temprev = NULL;
-	listint_t *temp = NULL;
+	listint_t *tnext = NULL;
+	listint_t *tprev = NULL;
 	listint_t *temp2 = NULL;
+	int count = 0, flag = 0;
 
-	temp = *list;
-	while (temp->next != NULL)
+	if (!*list || !list || !(*list)->next)
+		return;
+	tnext = (*list)->next;
+	tprev = *list;
+	temp2 = *list;
+	while (tnext->next != NULL)
 	{
-		tempnext = temp->next;
-		temprev = temp;
-		temp2 = temp;
-		if (temprev->n > tempnext->n)
+		if (count == 0)
 		{
-			if (temprev->prev == NULL && tempnext != NULL)
+			if (tprev->n > tnext->n)
 			{
-				temprev->next = tempnext->next;
-				temprev->prev = tempnext;
-				tempnext->prev = NULL;
-				tempnext->next = temprev;
+				tnext->next->prev = tprev;
+				tprev->next = tnext->next;
+				tprev->prev = tnext;
+				tnext->next = tprev;
+				tnext->prev = NULL;
 				print_list(*list);
-			}
-			else if (temprev->prev == NULL && tempnext == NULL)
-			{
-				temprev->prev = tempnext;
-				temprev->next = NULL;
-				tempnext->prev = NULL;
-				tempnext->next = temprev;
-				print_list(*list);
-			}
-			else
-			{
-				while (temp2->prev != NULL)
-				{
-					tempnext = temp2->next;
-					temprev = temp2;
-					if (temprev->n > tempnext->n)
-					{
-						if (temprev->prev)
-							temprev->prev->next = tempnext;
-						if (tempnext->next)
-							tempnext->next->prev = temprev;
-						temprev->next = tempnext->next;
-						tempnext->next = temprev->prev;
-						temprev->prev = tempnext;
-						tempnext->next = temprev;
-						print_list(*list);
-					}
-					temp2 = temp2->prev;
-				}
 			}
 		}
-		temp = temp->next;
+		while (tprev->prev != NULL)
+		{
+		        if (tprev->n > tnext->n && flag == 0)
+			{
+				temp2 = tprev;
+				if (tprev->prev)
+					tprev->prev->next = tnext;
+				if (tnext->next)
+					tnext->next->prev = tprev;
+				tprev->next = tnext->next;
+				tnext->prev = tprev->prev;
+				tprev->prev = tnext;
+				tnext->next = tprev;
+				if (!tnext->prev)
+				{
+					*list = tnext;
+					print_list(*list);
+					break;
+				}
+				print_list(*list);
+				tnext = tnext->prev;
+				tprev = tprev->prev;
+				flag = 1;
+			}else
+				break;
+			if (tnext->n > tprev->n && flag == 1)
+			{
+				if (tnext->prev)
+					tnext->prev->next = tprev;
+				if (tprev->next)
+					tprev->next->prev = tnext;
+				tnext->next = tprev->next;
+				tprev->prev = tnext->prev;
+				tnext->prev = tprev;
+				tprev->next = tnext;
+				if (!tprev->prev)
+				{
+					*list = tprev;
+					print_list(*list);
+					break;
+				}
+				print_list(*list);
+				tprev = tprev->prev;
+				tnext = tnext->prev;
+				flag = 0;
+			}else
+				break;
+		}
+		temp2 = temp2->next;
+		tnext = temp2;
+		tprev = temp2->prev;
+		count = count + 1;
+		flag = 0;
 	}
 }
