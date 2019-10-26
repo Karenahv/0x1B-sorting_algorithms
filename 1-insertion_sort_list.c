@@ -11,14 +11,21 @@ void insertion_sort_list(listint_t **list)
 	listint_t *tnext = NULL;
 	listint_t *tprev = NULL;
 	listint_t *temp2 = NULL;
-	int count = 0, flag = 0;
+	listint_t *temp3 = NULL;
+	int count = 0, flag = 0, count1 = 0;
 
 	if (!*list || !list || !(*list)->next)
 		return;
+	temp3 = *list;
+	while(temp3)
+	{
+		count1 = count1 + 1;
+		temp3 = temp3->next;
+	}
 	tnext = (*list)->next;
 	tprev = *list;
 	temp2 = *list;
-	while (tnext->next != NULL)
+	while (tnext)
 	{
 		if (count == 0)
 		{
@@ -32,7 +39,7 @@ void insertion_sort_list(listint_t **list)
 				print_list(*list);
 			}
 		}
-		while (tprev->prev != NULL)
+		while (tprev)
 		{
 		        if (tprev->n > tnext->n && flag == 0)
 			{
@@ -80,10 +87,14 @@ void insertion_sort_list(listint_t **list)
 			}else
 				break;
 		}
-		temp2 = temp2->next;
-		tnext = temp2;
-		tprev = temp2->prev;
-		count = count + 1;
-		flag = 0;
+		if (temp2->next)
+		{
+			temp2 = temp2->next;
+			tnext = temp2;
+			tprev = temp2->prev;
+			count = count + 1;
+			flag = 0;
+		}else
+			break;
 	}
 }
