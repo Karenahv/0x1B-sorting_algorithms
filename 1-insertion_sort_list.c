@@ -74,11 +74,12 @@ void swap3(listint_t **list, listint_t *tprev, listint_t *tnext)
  */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *tnext = (*list)->next, *tprev = *list, *temp2 = *list;
+	listint_t *tnext = NULL, *tprev = NULL, *temp2 = NULL;
 	int count = 0, flag = 0;
 
-	if (!*list || !list || !(*list)->next)
+	if (list == NULL || *list == NULL || !*list || !list || !(*list)->next)
 		return;
+	tnext = (*list)->next, tprev = *list, temp2 = *list;
 	while (tnext)
 	{
 		if (count == 0)
@@ -89,8 +90,7 @@ void insertion_sort_list(listint_t **list)
 				{
 					swap3(list, tprev, tnext);
 					break; }
-				swap3(list, tprev, tnext);
-				print_list(*list), flag = 1; } }
+				swap3(list, tprev, tnext), print_list(*list), flag = 1; } }
 		while (tprev)
 		{
 			if (tprev->n > tnext->n && flag == 0)
