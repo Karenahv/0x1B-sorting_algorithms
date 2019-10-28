@@ -12,6 +12,8 @@ void counting_sort(int *array, size_t size)
 	unsigned int i = 0, l = 0;
 	int *index = NULL, *places = NULL;
 
+	if (!array || !size || size == 1)
+		return;
 	for (i = 0; i < size; i++)
 	{
 		if (array[i] > k)
@@ -29,8 +31,7 @@ void counting_sort(int *array, size_t size)
 				index[a] = index[a] + 1; }}
 	for (j = 1; j < (k + 1); j++)
 		index[j] = index[j - 1] + index[j];
-	print_array(index, (k + 1));
-	places = malloc(sizeof(int) * size);
+	print_array(index, (k + 1)), places = malloc(sizeof(int) * size);
 	if (!places)
 	{
 		free(index);
@@ -40,8 +41,7 @@ void counting_sort(int *array, size_t size)
 		for (a = 0; a < (k + 1); a++)
 		{
 			if (array[l] == a)
-			{
-				pos = index[a];
+			{pos = index[a];
 				places[pos] = array[l]; }}}
 	for (l = 0; l < size; l++)
 		array[l] = places[l + 1];
