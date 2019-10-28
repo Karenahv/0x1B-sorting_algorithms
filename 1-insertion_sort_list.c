@@ -88,8 +88,8 @@ void insertion_sort_list(listint_t **list)
 				{
 					swap3(list, tprev, tnext);
 					break; }
-				swap3(list, tprev, tnext); }
-			print_list(*list); }
+				swap3(list, tprev, tnext);
+				print_list(*list); } }
 		while (tprev)
 		{
 			if (tprev->n > tnext->n && flag == 0)
