@@ -33,7 +33,9 @@ int *min(int *array, size_t size)
  */
 void selection_sort(int *array, size_t size)
 {
-	for (size_t i = 0; i < size; i++)
+	size_t i;
+
+	for (i = 0; i < size; i++)
 	{
 		int *min_mul = min(&array[i], size - i);
 		int tmp = 0;
