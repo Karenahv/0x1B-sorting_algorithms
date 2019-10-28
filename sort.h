@@ -26,5 +26,9 @@ void insertion_sort_list(listint_t **list);
 void shell_sort(int *array, size_t size);
 void counting_sort(int *array, size_t size);
 void merge_sort(int *array, size_t size);
-
+void top_down_merge(int *array, int begin, int end, int *copy);
+void top_down_split_merge(int *array, int begin, int end, int *copy);
+void swap1(listint_t *tprev, listint_t *tnext);
+void swap2(listint_t *tnext, listint_t *tprev);
+void swap3(listint_t **list, listint_t *tprev, listint_t *tnext);
 #endif
