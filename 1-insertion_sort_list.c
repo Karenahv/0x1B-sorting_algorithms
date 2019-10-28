@@ -47,7 +47,6 @@ void swap2(listint_t *tnext, listint_t *tprev)
  */
 void swap3(listint_t **list, listint_t *tprev, listint_t *tnext)
 {
-	(void)list;
 	if (!tnext->next)
 	{
 		tprev->prev = tnext;
@@ -63,6 +62,8 @@ void swap3(listint_t **list, listint_t *tprev, listint_t *tnext)
 		tprev->prev = tnext;
 		tnext->next = tprev;
 		tnext->prev = NULL;
+		if (!tnext->prev)
+			*list = tnext;
 	}
 }
 
@@ -89,7 +90,7 @@ void insertion_sort_list(listint_t **list)
 					swap3(list, tprev, tnext);
 					break; }
 				swap3(list, tprev, tnext);
-				print_list(*list); } }
+				print_list(*list), flag = 1; } }
 		while (tprev)
 		{
 			if (tprev->n > tnext->n && flag == 0)
