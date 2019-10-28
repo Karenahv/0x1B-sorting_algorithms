@@ -25,10 +25,10 @@ void swap(int *a, int *b)
  *
  * Return: pivot number
  */
-int partition(int *array, int lo, int hi, size_t size)
+int partition(int *array, ssize_t lo, ssize_t hi, size_t size)
 {
 	int pivot = array[hi];
-	int j = lo, i;
+	ssize_t j = lo, i;
 
 	for (i = lo; i < hi; i++)
 	{
@@ -40,7 +40,7 @@ int partition(int *array, int lo, int hi, size_t size)
 				print_array(array, size);
 			}
 
-			j += 1;
+			j++;
 		}
 	}
 
@@ -62,7 +62,7 @@ int partition(int *array, int lo, int hi, size_t size)
  *
  * Return: void
  */
-void quicksort(int *array, int lo, int hi, size_t size)
+void quicksort(int *array, ssize_t lo, ssize_t hi, size_t size)
 {
 	if (lo < hi)
 	{
@@ -80,7 +80,7 @@ void quicksort(int *array, int lo, int hi, size_t size)
  *
  * Return: void
  */
-void quick_sort(int *array, int size)
+void quick_sort(int *array, size_t size)
 {
 	if (array == NULL || size < 2)
 		return;
