@@ -75,10 +75,12 @@ void swap(listint_t **list)
  */
 void cocktail_sort_list(listint_t **list)
 {
+	listint_t *tmp_loop = NULL;
+
 	if (list == NULL)
 		return;
 
-	listint_t *tmp_loop = *list;
+	tmp_loop = *list;
 
 	while (tmp_loop)
 	{
