@@ -33,5 +33,6 @@ void swap1(listint_t *tprev, listint_t *tnext);
 void swap2(listint_t *tnext, listint_t *tprev);
 void quick_sort(int *array, size_t size);
 void swap3(listint_t **list, listint_t *tprev, listint_t *tnext);
+void radix_sort(int *array, size_t size);
 void cocktail_sort_list(listint_t **list);
 #endif

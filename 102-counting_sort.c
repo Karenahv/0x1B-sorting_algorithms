@@ -42,7 +42,7 @@ void counting_sort(int *array, size_t size)
 		{
 			if (array[l] == a)
 			{pos = index[a];
-				places[pos] = array[l]; }}}
+				places[pos] = array[l], index[a] = index[a] - 1; }}}
 	for (l = 0; l < size; l++)
 		array[l] = places[l + 1];
 	free(index);
