@@ -77,7 +77,7 @@ void cocktail_sort_list(listint_t **list)
 {
 	listint_t *tmp_loop = NULL;
 
-	if (list == NULL)
+	if (list == NULL || !(*list) || (*list)->next == NULL)
 		return;
 
 	tmp_loop = *list;
