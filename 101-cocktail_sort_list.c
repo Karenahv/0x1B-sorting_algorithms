@@ -58,6 +58,10 @@ void swap(listint_t **list)
 			(*i)->next->next = next_b;
 			(*i)->next->prev = *i;
 			(*i)->prev = prev_a;
+
+			if (next_b)
+				next_b->prev = (*i)->next;
+
 			print_list(*list);
 		}
 
