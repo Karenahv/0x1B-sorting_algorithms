@@ -9,28 +9,36 @@
  */
 void swap_from_right(listint_t **i, listint_t **list)
 {
-	i = (&(*i)->prev);
+	listint_t *a = (*i)->prev;
 
-	while ((*i)->prev)
+	while (a)
 	{
-		listint_t **b = &(*i)->next;
-		listint_t **a = i;
-
-		listint_t *next_b = (*b)->next;
-		listint_t *next_a = (*a)->next;
-		listint_t *prev_a = (*a)->prev;
-
-		if ((*a)->n > (*b)->n)
+		if (a->next && a->n > a->next->n)
 		{
-			prev_a->next = *b;
-			(*b)->next = *a;
-			next_a->prev = *b;
-			(*b)->prev = prev_a;
-			(*a)->next = next_b;
+			listint_t *prev_a = a->prev;
+			listint_t *next_b = NULL;
+			listint_t *b = a->next;
+
+			if(a->next)
+			{
+				next_b = a->next->next;
+				next_b->prev = a;
+			}
+
+			if (prev_a)
+				prev_a->next = b;
+			else
+				*list = b;
+
+			b->next = a;
+			a->next = next_b;
+			a->prev = b;
+			b->prev = prev_a;
+
 			print_list(*list);
 		}
 
-		*i = *(&(*i)->prev);
+		a = a->prev;
 	}
 }
 
