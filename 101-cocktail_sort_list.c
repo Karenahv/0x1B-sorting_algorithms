@@ -19,7 +19,7 @@ void swap_from_right(listint_t **i, listint_t **list)
 			listint_t *next_b = NULL;
 			listint_t *b = a->next;
 
-			if(a->next)
+			if (a->next)
 			{
 				next_b = a->next->next;
 				next_b->prev = a;
