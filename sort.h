@@ -40,4 +40,7 @@ int obtain_digit(long num, int count);
 int get_digit(long number, int digit);
 int radix_pass(int *array, ssize_t size, int digit, int *new_array);
 void get_digits_radix2(int *array, size_t size, size_t *count, size_t digits);
+void heap_sort(int *array, size_t size);
+void heap_swap(int *array, size_t size, int i, size_t size2);
+void swap_heapsort(int *array, int min, int max, size_t size);
 #endif
