@@ -1,5 +1,6 @@
 #include "sort.h"
 
+
 /**
  * radix_sort - sort and array
  * @array: pointer to the array
@@ -10,8 +11,8 @@ void radix_sort(int *array, size_t size)
 {
 
 	int max = 0, num = 10;
-	size_t i, digits = 0;
-	int *array2, *new_array, *temp, *temp2;
+	size_t i, digits = 0, pcount = 0;
+	size_t *count = &pcount;
 
 	if (!array || size < 2)
 		return;
@@ -25,71 +26,118 @@ void radix_sort(int *array, size_t size)
 		max = max / num;
 		digits++;
 	}
-	array2 = array;
-	new_array = malloc(sizeof(int) * size);
-	temp = new_array;
 	for (i = 0; i < digits; i++)
 	{
 
-		get_digits_radix(array2, size, i, new_array);
-		temp2 = array2;
-		array2 = new_array;
-		new_array = temp2;
-		print_array(array2, size);
+		get_digits_radix2(array, size, count, digits);
 	}
-	for (i = 0; i < size; i++)
-		array[i] = array2[i];
-	free(temp);
+
 }
 
 
-
 /**
- * get_digits_radix - sort and array
- * @array2: pointer to the array
+ * copy_array2 - sort and array
+ * @array: pointer to the array
  * @size: size of the array
- * @count: position of digit to obtain
- * @new_array: copy array
  * Return: no return
  */
-int get_digits_radix(int *array2, size_t size, int count, int *new_array)
+int *copy_array2(int *array, size_t size)
 {
-	size_t i;
-	int digit = 0, j = 0;
+	size_t i = 0;
+	int *copy = NULL;
+
+	copy = malloc(sizeof(int) * size);
+	if (!copy)
+		return (NULL);
+	for (i = 0; i < size; i++)
+		copy[i] = array[i];
+	return (copy);
+}
+
+/**
+ * copy_array - sort and array
+ * @array: pointer to the array
+ * @places: sorted array
+ * @size: size of the array
+ * @digits: max of digits
+ * @count: counter
+ * Return: no return
+ */
+void copy_array(int *array, int *places, size_t size, size_t digits,
+		size_t *count)
+{
+	size_t i, j;
+	int temp = 0;
+
+	if (*count == digits)
+	{
+		for (i = 1; i < size + 1; i++)
+		{
+			if (places[i] > places[i + 1] && i < size)
+			{
+				temp = places[i];
+				places[i] = places[i + 1];
+				places[i + 1] = temp;
+			}
+		}
+		for (j = 0; j < size + 1; j++)
+			array[j] = places[j + 1];
+		print_array(array, size);
+	}
+	else
+	{
+		for (i = 0; i < size + 1; i++)
+			array[i] = places[i + 1];
+		print_array(array, size);
+	}
+}
+
+/**
+ * get_digits_radix2 - sort and array
+ * @array: pointer to the array
+ * @size: size of the array
+ * @count: counter
+ * @digits: max digits
+ * Return: no return
+ */
+void get_digits_radix2(int *array, size_t size, size_t *count, size_t digits)
+{
+	size_t i = 0, j = 0, k = 0;
+	int digit = 0, pos = 0, a = 0, pos2 = 0, l = 0;
 	int index[10];
+	int *places = NULL, *copy = NULL;
 
 	for (i = 0; i < 10; i++)
 		index[i] = 0;
-	for (i = 0; i < size; i++)
+	copy = copy_array2(array, size);
+	if (!copy)
+		return;
+	if (*count == 0)
 	{
-		digit = obtain_digit(array2[i], count);
-		index[digit] = index[digit] + 1;
-	}
-	for (i = 1; i < size + 1; i++)
-		index[i] = index[i] + index[i - 1];
-	for (j = size - 1; j > -1; j--)
+		for (i = 0; i < size; i++)
+		{copy[i] = copy[i] % 10, digit = copy[i];
+			index[digit] = index[digit] + 1; }} else
 	{
-		new_array[index[obtain_digit(array2[j], count)]-- - 1] = array2[j];
-	}
-	return (1);
-
-}
-
-/**
- * obtain_digit - sort and array
- * @num: number
- * @count: position we are trying to extract
- * Return: no return
- */
-int obtain_digit(long num, int count)
-{
-
-
-	long i = 0L, pow = 1L, r;
-
-	for (i = 0; i < count; i++)
-		pow = pow * 10L;
-	r = ((num / pow) % 10);
-	return (r);
-
-}
+		for (k = 0; k < size; k++)
+		{
+			for (i = 0; i < *count; i++)
+			{copy[k] = copy[k] / 10, digit = copy[k] % 10; }
+			index[digit] = index[digit] + 1; }}
+	for (j = 1; j < 10; j++)
+		index[j] = index[j - 1] + index[j];
+	places = malloc(sizeof(int) * size + 1);
+	if (!places)
+	{
+		free(copy);
+		return; }
+	for (l = size - 1; l >= 0; l--)
+	{
+		for (a = 0; a < 11; a++)
+		{
+			if (copy[l] >= 10)
+				copy[l] = copy[l] % 10;
+			if (copy[l] == a)
+			{pos = copy[l], pos2 = index[pos], places[pos2] = array[l];
+				index[pos] = index[pos] - 1; }}}
+	*count = *count + 1, copy_array(array, places, size, digits, count);
+	free(places), free(copy); }

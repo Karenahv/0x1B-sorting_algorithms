@@ -37,4 +37,7 @@ void radix_sort(int *array, size_t size);
 void cocktail_sort_list(listint_t **list);
 int get_digits_radix(int *array2, size_t size, int count, int *new_array);
 int obtain_digit(long num, int count);
+int get_digit(long number, int digit);
+int radix_pass(int *array, ssize_t size, int digit, int *new_array);
+void get_digits_radix2(int *array, size_t size, size_t *count, size_t digits);
 #endif
