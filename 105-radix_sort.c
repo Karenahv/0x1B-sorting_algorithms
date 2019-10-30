@@ -2,6 +2,40 @@
 
 
 /**
+ * radix_sort - sort and array
+ * @array: pointer to the array
+ * @size: size of the array
+ * Return: no return
+ */
+void radix_sort(int *array, size_t size)
+{
+
+	int max = 0, num = 10;
+	size_t i, digits = 0, pcount = 0;
+	size_t *count = &pcount;
+
+	if (!array || size < 2)
+		return;
+	for (i = 0; i < size; i++)
+	{
+		if (array[i] > max)
+			max = array[i];
+	}
+	while (max > 0)
+	{
+		max = max / num;
+		digits++;
+	}
+	for (i = 0; i < digits; i++)
+	{
+
+		get_digits_radix(array, size, count, digits);
+	}
+
+}
+
+
+/**
  * copy_array2 - sort and array
  * @array: pointer to the array
  * @size: size of the array
@@ -29,7 +63,8 @@ int *copy_array2(int *array, size_t size)
  * @count: counter
  * Return: no return
  */
-void copy_array(int *array, int *places, size_t size, size_t digits, size_t *count)
+void copy_array(int *array, int *places, size_t size, size_t digits,
+		size_t *count)
 {
 	size_t i, j;
 	int temp = 0;
@@ -86,8 +121,7 @@ void get_digits_radix(int *array, size_t size, size_t *count, size_t digits)
 		for (k = 0; k < size; k++)
 		{
 			for (i = 0; i < *count; i++)
-			{copy[k] = copy[k] / 10;
-				digit = copy[k] % 10; }
+			{copy[k] = copy[k] / 10, digit = copy[k] % 10; }
 			index[digit] = index[digit] + 1; }}
 	for (j = 1; j < 10; j++)
 		index[j] = index[j - 1] + index[j];
@@ -105,40 +139,5 @@ void get_digits_radix(int *array, size_t size, size_t *count, size_t digits)
 			if (copy[l] == a)
 			{pos = copy[l], pos2 = index[pos], places[pos2] = array[l];
 				index[pos] = index[pos] - 1; }}}
-	*count = *count + 1;
-	copy_array(array, places, size, digits, count);
-	free(places);
-}
-
-/**
- * radix_sort - sort and array
- * @array: pointer to the array
- * @size: size of the array
- * Return: no return
- */
-void radix_sort(int *array, size_t size)
-{
-
-	int max = 0, num = 10;
-	size_t i, digits = 0, pcount = 0;
-	size_t *count = &pcount;
-
-	if (!array || size < 2)
-		return;
-	for (i = 0; i < size; i++)
-	{
-		if (array[i] > max)
-			max = array[i];
-	}
-	while (max > 0)
-	{
-		max = max / num;
-		digits++;
-	}
-	for (i = 0; i < digits; i++)
-	{
-
-		get_digits_radix(array, size, count, digits);
-	}
-
-}
+	*count = *count + 1, copy_array(array, places, size, digits, count);
+	free(places); }
