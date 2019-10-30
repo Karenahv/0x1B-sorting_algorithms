@@ -35,4 +35,6 @@ void quick_sort(int *array, size_t size);
 void swap3(listint_t **list, listint_t *tprev, listint_t *tnext);
 void radix_sort(int *array, size_t size);
 void cocktail_sort_list(listint_t **list);
+void get_digits_radix(int *array, size_t size, size_t *count);
+void copy_array(int *array, int *places, size_t size);
 #endif
