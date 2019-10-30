@@ -25,17 +25,36 @@ int *copy_array2(int *array, size_t size)
  * @array: pointer to the array
  * @places: sorted array
  * @size: size of the array
+ * @digits: max of digits
+ * @count: counter
  * Return: no return
  */
-void copy_array(int *array, int *places, size_t size)
+void copy_array(int *array, int *places, size_t size, size_t digits, size_t *count)
 {
 	size_t i, j;
+	int temp = 0;
 
-	for (i = 0; i < size + 1; i++)
-		array[i] = places[i + 1];
-	for (j = 0; j < size + 1; j++)
-		places[j] = places[j] / 10;
-	print_array(array, size);
+	if (*count == digits)
+	{
+		for (i = 1; i < size + 1; i++)
+		{
+			if (places[i] > places[i + 1] && i < size)
+			{
+				temp = places[i];
+				places[i] = places[i + 1];
+				places[i + 1] = temp;
+			}
+		}
+		for (j = 0; j < size + 1; j++)
+			array[j] = places[j + 1];
+		print_array(array, size);
+	}
+	else
+	{
+		for (i = 0; i < size + 1; i++)
+			array[i] = places[i + 1];
+		print_array(array, size);
+	}
 }
 
 /**
@@ -43,9 +62,10 @@ void copy_array(int *array, int *places, size_t size)
  * @array: pointer to the array
  * @size: size of the array
  * @count: counter
+ * @digits: max digits
  * Return: no return
  */
-void get_digits_radix(int *array, size_t size, size_t *count)
+void get_digits_radix(int *array, size_t size, size_t *count, size_t digits)
 {
 	size_t i = 0, j = 0, k = 0;
 	int digit = 0, pos = 0, a = 0, pos2 = 0, l = 0;
@@ -60,48 +80,33 @@ void get_digits_radix(int *array, size_t size, size_t *count)
 	if (*count == 0)
 	{
 		for (i = 0; i < size; i++)
-		{
-			copy[i] = copy[i] % 10;
-			digit = copy[i];
-			index[digit] = index[digit] + 1;
-		}
-	} else
+		{copy[i] = copy[i] % 10, digit = copy[i];
+			index[digit] = index[digit] + 1; }} else
 	{
-		for (k = 0; k < *count; k++)
+		for (k = 0; k < size; k++)
 		{
-			for (i = 0; i < size; i++)
-			{
-				copy[i] = copy[i] / 10;
-				digit = copy[i] % 10;
-				index[digit] = index[digit] + 1;
-			}
-		}
-
-	}
-
+			for (i = 0; i < *count; i++)
+			{copy[k] = copy[k] / 10;
+				digit = copy[k] % 10; }
+			index[digit] = index[digit] + 1; }}
 	for (j = 1; j < 10; j++)
 		index[j] = index[j - 1] + index[j];
 	places = malloc(sizeof(int) * size + 1);
 	if (!places)
 	{
 		free(copy);
-		return;
-	}
-	for (l = size; l >= 0; l--)
+		return; }
+	for (l = size - 1; l >= 0; l--)
 	{
 		for (a = 0; a < 11; a++)
 		{
-			if (copy[l]  == a)
-			{
-				pos = copy[l];
-				pos2 = index[pos];
-				places[pos2] = array[l];
-				index[pos] = index[pos] - 1;
-			}
-		}
-	}
+			if (copy[l] >= 10)
+				copy[l] = copy[l] % 10;
+			if (copy[l] == a)
+			{pos = copy[l], pos2 = index[pos], places[pos2] = array[l];
+				index[pos] = index[pos] - 1; }}}
 	*count = *count + 1;
-	copy_array(array, places, size);
+	copy_array(array, places, size, digits, count);
 	free(places);
 }
 
@@ -133,7 +138,7 @@ void radix_sort(int *array, size_t size)
 	for (i = 0; i < digits; i++)
 	{
 
-		get_digits_radix(array, size, count);
+		get_digits_radix(array, size, count, digits);
 	}
 
 }
